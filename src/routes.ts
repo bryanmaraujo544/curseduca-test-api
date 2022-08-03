@@ -15,7 +15,7 @@ router.get('/', (req: Request, res: Response) => {
 router.post('/auth', ensureAuthentication as any, AuthController.auth);
 router.post('/auth/login', AuthController.login);
 
-router.get('/users', UserController.index);
+// router.get('/users', UserController.index);
 router.get('/users/:id', UserController.show);
 router.post('/users', UserController.store);
 
