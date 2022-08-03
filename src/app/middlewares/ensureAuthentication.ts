@@ -15,7 +15,6 @@ export const ensureAuthentication = (
   next: NextFunction
 ) => {
   const { authorization } = req.headers;
-  console.log({ authorization });
 
   if (!authorization) {
     return res.sendStatus(401);
@@ -28,7 +27,6 @@ export const ensureAuthentication = (
       token,
       process.env.SECRET_KEY as string
     ) as JWTPayload;
-    console.log({ tokenDecoded });
 
     if (tokenDecoded) {
       req.userId = tokenDecoded.id;

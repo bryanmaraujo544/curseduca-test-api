@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import AuthController from './app/controllers/AuthController';
 import CommentController from './app/controllers/CommentController';
+import LikeController from './app/controllers/LikeController';
 import PostController from './app/controllers/PostController';
 import UserController from './app/controllers/UserController';
 import { ensureAuthentication } from './app/middlewares/ensureAuthentication';
@@ -29,6 +30,14 @@ router.delete(
   '/comments/:id',
   ensureAuthentication as any,
   CommentController.delete
+);
+
+router.get('/likes', ensureAuthentication as any, LikeController.index);
+router.post('/likes', ensureAuthentication as any, LikeController.store);
+router.delete(
+  '/likes/:postId',
+  ensureAuthentication as any,
+  LikeController.delete
 );
 
 export default router;

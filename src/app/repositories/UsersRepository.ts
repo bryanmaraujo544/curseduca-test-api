@@ -4,6 +4,7 @@ interface User {
   name: string;
   email: string;
   password: string;
+  profileImg: string;
 }
 
 class UsersRepository {
@@ -12,12 +13,13 @@ class UsersRepository {
     return users;
   }
 
-  async create({ name, email, password }: User) {
+  async create({ name, email, password, profileImg }: User) {
     const user = await prisma.user.create({
       data: {
         email,
         name,
         password,
+        profileImg,
       },
     });
 
@@ -34,18 +36,22 @@ class UsersRepository {
   }
 
   async findById(id: number) {
-    const user = await prisma.user.findFirst({
-      where: {
-        id: Number(id),
-      },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-      },
-    });
-
-    return user;
+    try {
+      const user = await prisma.user.findFirst({
+        where: {
+          id: Number(id),
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          profileImg: true,
+        },
+      });
+      return user;
+    } catch {
+      return null;
+    }
   }
 }
 
