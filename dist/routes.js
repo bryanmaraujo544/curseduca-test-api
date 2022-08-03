@@ -1,0 +1,32 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const AuthController_1 = __importDefault(require("./app/controllers/AuthController"));
+const CommentController_1 = __importDefault(require("./app/controllers/CommentController"));
+const LikeController_1 = __importDefault(require("./app/controllers/LikeController"));
+const PostController_1 = __importDefault(require("./app/controllers/PostController"));
+const UserController_1 = __importDefault(require("./app/controllers/UserController"));
+const ensureAuthentication_1 = require("./app/middlewares/ensureAuthentication");
+const router = (0, express_1.Router)();
+router.get('/', (req, res) => {
+    res.send('index page');
+});
+router.post('/auth', ensureAuthentication_1.ensureAuthentication, AuthController_1.default.auth);
+router.post('/auth/login', AuthController_1.default.login);
+router.get('/users', UserController_1.default.index);
+router.get('/users/:id', UserController_1.default.show);
+router.post('/users', UserController_1.default.store);
+router.get('/posts', ensureAuthentication_1.ensureAuthentication, PostController_1.default.index);
+router.post('/posts', ensureAuthentication_1.ensureAuthentication, PostController_1.default.store);
+router.put('/posts/:id', ensureAuthentication_1.ensureAuthentication, PostController_1.default.update);
+router.delete('/posts/:id', ensureAuthentication_1.ensureAuthentication, PostController_1.default.delete);
+router.get('/comments', ensureAuthentication_1.ensureAuthentication, CommentController_1.default.index);
+router.post('/comments', ensureAuthentication_1.ensureAuthentication, CommentController_1.default.store);
+router.delete('/comments/:id', ensureAuthentication_1.ensureAuthentication, CommentController_1.default.delete);
+router.get('/likes', ensureAuthentication_1.ensureAuthentication, LikeController_1.default.index);
+router.post('/likes', ensureAuthentication_1.ensureAuthentication, LikeController_1.default.store);
+router.delete('/likes/:postId', ensureAuthentication_1.ensureAuthentication, LikeController_1.default.delete);
+exports.default = router;
